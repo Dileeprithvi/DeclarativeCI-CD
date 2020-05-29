@@ -1,4 +1,7 @@
 def mvn
+def server = Artifactory.server 'artifactory'
+def rtMaven = Artifactory.newMavenBuild()
+def buildInfo
 pipeline {
   agent { label 'master' }
     tools {
@@ -18,6 +21,15 @@ pipeline {
         sh "${mvn} clean install"
       }
     }
+    stage('Artifactory_Configuration') {
+      steps {
+        script {
+		  rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
+          rtBuildInfo ( captureEnv: true, )		
+		  buildInfo = Artifactory.newBuildInfo()
+        }			                      
+      }
+    }	
     stage('SonarQube_Analysis') {
       steps {
 	    script {
