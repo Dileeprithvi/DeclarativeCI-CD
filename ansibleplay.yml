@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: stop if we have old docker container
+    command: docker stop firstcont
+    ignore_errors: yes
+
+  - name: remove stopped docker container
+    command: docker rm firstcont
+    ignore_errors: yes
+
+  - name: remove current docker image
+    command: docker rmi dileep95/firstdeploy
+    ignore_errors: yes
+
+  - name: building docker image
+    command: docker build -t dileep95/firstdeploy:latest .
+    
+  - name: docker login
+    command: docker login -u dileep95 -p Docker@2019
+
+  - name: docker push
+    command: docker push dileep95/firstdeploy:latest	  
+
+  - name: creating docker image
+    command: docker run -d -p 8050:8050 --name firstcont dileep95/firstdeploy:latest
