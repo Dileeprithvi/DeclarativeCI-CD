@@ -13,20 +13,29 @@ pipeline {
     SONAR_HOME = "${tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}"
   }  
   stages {
-   stage ('Maven Build') {
-      steps {
-        script {
-          mvn= tool (name: 'Maven', type: 'maven') + '/bin/mvn'
-        }
-        sh "${mvn} clean install"
-      }
-    }
+   //stage ('Maven Build') {
+      //steps {
+       // script {
+       //   mvn= tool (name: 'Maven', type: 'maven') + '/bin/mvn'
+      //  }
+       // sh "${mvn} clean install"
+     // }
+    //}
     stage('Artifactory_Configuration') {
       steps {
         script {
-		  rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
-          rtBuildInfo ( captureEnv: true, )		
+		  rtMaven.tool = 'Maven'
+		  rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
 		  buildInfo = Artifactory.newBuildInfo()
+		  rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
+          buildInfo.env.capture = true
+        }			                      
+      }
+    }
+    stage('Execute_Maven') {
+	  steps {
+	    script {
+		  rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
         }			                      
       }
     }	
