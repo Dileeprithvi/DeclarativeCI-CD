@@ -5,6 +5,10 @@ pipeline {
       maven 'Maven'
       jdk 'JAVA_HOME'
     }
+  options { timestamps () }	
+  environment {
+    SONAR_HOME = "${tool name: 'sonar'}"
+  }  
   stages {
    stage ('Maven Build') {
       steps {
@@ -14,19 +18,16 @@ pipeline {
         sh "${mvn} clean install"
       }
     }
-  stage('Build Docker Image'){
-    steps{
-      sh 'docker build -t dileep95/dileep-spring:$BUILD_NUMBER .'
-    }
-  }
-  stage('Docker Container'){
-    steps{
-      withCredentials([usernameColonPassword(credentialsId: 'docker_dileep_creds', variable: 'DOCKER_PASS')]) {
-      sh 'docker push dileep95/dileep-spring:$BUILD_NUMBER'
-	  sh 'docker run -d -p 8050:8050 --name SpringbootApp dileep95/dileep-spring:$BUILD_NUMBER'
-    }
-    }
-  }  
+    stage('SonarQube_Analysis') {
+      steps {
+	    script {
+          scannerHome = tool 'sonar'
+        }
+        withSonarQubeEnv('sonar_scanner') {
+      	  sh """${scannerHome}/bin/sonar-scanner"""
+        }
+      }	
+    }	
 
   }
 }
