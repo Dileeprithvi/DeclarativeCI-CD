@@ -13,14 +13,6 @@ pipeline {
     SONAR_HOME = "${tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}"
   }  
   stages {
-   //stage ('Maven Build') {
-      //steps {
-       // script {
-       //   mvn= tool (name: 'Maven', type: 'maven') + '/bin/mvn'
-      //  }
-       // sh "${mvn} clean install"
-     // }
-    //}
     stage('Artifactory_Configuration') {
       steps {
         script {
