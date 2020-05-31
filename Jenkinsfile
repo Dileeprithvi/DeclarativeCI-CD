@@ -57,7 +57,7 @@ pipeline {
     steps{
      // sh 'sudo docker stop SpringbootApp'	    
      // sh 'sudo docker rmi -f $(docker images)'
-      sh 'docker stop ngninx'
+      sh 'docker stop nginx'
       sh 'docker rm -f nginx'    
     }
   }
