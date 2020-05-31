@@ -48,19 +48,20 @@ pipeline {
         }
       }
     }
-  stage('Build Docker Image'){
-    steps{
-      sh 'docker build -t dileep95/springtest:$BUILD_NUMBER .'
-    }
-  }
    stage('Deleting docker images and Containers'){
     steps{
      // sh 'sudo docker stop SpringbootApp'	    
      // sh 'sudo docker rmi -f $(docker images)'
-      sh 'docker stop nginx'
-      sh 'docker rm -f nginx'    
+      sh 'docker stop SpringbootApp'	    
+      sh 'docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | egrep 'springboot|tomcat')'	    
+      sh 'docker rm -f SpringbootApp'    
     }
   }
+  stage('Build Docker Image'){
+    steps{
+      sh 'docker build -t dileep95/springtest:$BUILD_NUMBER .'
+    }
+  }	  	  
 	  /*
   stage('Docker Container'){
     steps{
