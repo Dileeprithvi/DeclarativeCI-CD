@@ -57,10 +57,11 @@ pipeline {
     steps{
      // sh 'sudo docker stop SpringbootApp'	    
      // sh 'sudo docker rmi -f $(docker images)'
-      sh 'chmod +x delete_cont.sh '
-      sh './delete_cont.sh'	    
+      sh 'docker stop ngninx'
+      sh 'docker rm -f nginx'    
     }
-  }	  
+  }
+	  /*
   stage('Docker Container'){
     steps{
       withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
@@ -79,5 +80,6 @@ post {
 sh 'echo "This will run only if failed"'
       mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR: Project name -> ${env.JOB_NAME}", to: "prithdileep@gmail.com";
     }
-  }
-}	
+  }*/
+  }	
+}
