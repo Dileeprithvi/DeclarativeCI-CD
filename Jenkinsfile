@@ -55,8 +55,8 @@ pipeline {
   }
    stage('Deleting docker images and Containers'){
     steps{
-      sh 'sudo docker stop SpringbootApp'	    
-      sh 'sudo docker rmi -f $(docker images)'
+     // sh 'sudo docker stop SpringbootApp'	    
+     // sh 'sudo docker rmi -f $(docker images)'
       sh 'chmod +x delete_cont.sh '
       sh './delete_cont.sh'	    
     }
