@@ -53,6 +53,13 @@ pipeline {
       sh 'docker build -t dileep95/springtest:$BUILD_NUMBER .'
     }
   }
+   stage('Deleting docker images and Containers'){
+    steps{
+      sh 'sudo docker rmi -f $(docker images)'
+      sh 'chmod +x delete_cont.sh '
+      sh './delete_cont.sh'	    
+    }
+  }	  
   stage('Docker Container'){
     steps{
       withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
