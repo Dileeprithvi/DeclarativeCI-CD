@@ -2,7 +2,7 @@ Simple Spring Boot Maven Project developed in Jenkins Declarative Pipeline
 
 DevOps Tools Used
 
-Git Maven Jenkins Tomcat Docker
+Pipeline CI/CD - GitHub, Maven, Jenkins, Artifactory, SonarQube, Docker, Tomcat
 
 Access to the tomcat after successfully deploying:
 
