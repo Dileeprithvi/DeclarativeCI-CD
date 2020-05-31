@@ -8,7 +8,10 @@ pipeline {
       maven 'Maven'
       jdk 'JAVA_HOME'
     }
-  options { timestamps () }	
+  options { 
+    timestamps () 
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')		  
+}	
   environment {
     SONAR_HOME = "${tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}"
   }  
@@ -51,11 +54,7 @@ pipeline {
    stage('Deleting docker images and Containers'){
     steps{
      sh 'chmod +x delete_cont.sh'
-     sh './delete_cont.sh'	    
-	    
-      //sh 'docker stop SpringbootApp || true'	    
-      //sh 'docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | egrep 'springboot|tomcat') || true'	    
-    //  sh 'docker rm -f SpringbootApp || true'    
+     sh './delete_cont.sh'	      
     }
   }
   stage('Build Docker Image'){
@@ -70,9 +69,8 @@ pipeline {
       	  sh 'docker push dileep95/springtest:$BUILD_NUMBER'
 	  sh 'docker run -d -p 8050:8050 --name SpringbootApp dileep95/springtest:$BUILD_NUMBER'
     }
-    }
-  }	  
-  }	  
+  }
+}	  	  
 post {
     always {
 		mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "Success: Project name -> ${env.JOB_NAME}", to: "prithdileep@gmail.com";
