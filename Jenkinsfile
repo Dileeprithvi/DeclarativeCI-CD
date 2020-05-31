@@ -10,7 +10,11 @@ pipeline {
     }
   options { 
     timestamps () 
-    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')		  
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')	
+// numToKeepStr - Max # of builds to keep
+// daysToKeepStr - Days to keep builds
+// artifactDaysToKeepStr - Days to keep artifacts
+// artifactNumToKeepStr - Max # of builds to keep with artifacts	  
 }	
   environment {
     SONAR_HOME = "${tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}"
