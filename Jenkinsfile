@@ -52,9 +52,9 @@ pipeline {
     steps{
      // sh 'sudo docker stop SpringbootApp'	    
      // sh 'sudo docker rmi -f $(docker images)'
-      sh 'docker stop SpringbootApp'	    
-      sh 'docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | egrep 'springboot|tomcat')'	    
-      sh 'docker rm -f SpringbootApp'    
+      sh 'docker stop SpringbootApp || true'	    
+      sh 'docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | egrep 'springboot|tomcat') || true'	    
+      sh 'docker rm -f SpringbootApp || true'    
     }
   }
   stage('Build Docker Image'){
