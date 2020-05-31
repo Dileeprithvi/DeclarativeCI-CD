@@ -50,11 +50,12 @@ pipeline {
     }
    stage('Deleting docker images and Containers'){
     steps{
-     // sh 'sudo docker stop SpringbootApp'	    
-     // sh 'sudo docker rmi -f $(docker images)'
-      sh 'docker stop SpringbootApp || true'	    
-      sh 'docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | egrep 'springboot|tomcat') || true'	    
-      sh 'docker rm -f SpringbootApp || true'    
+     sh 'chmod +x delete_cont.sh'
+     sh './delete_cont.sh'	    
+	    
+      //sh 'docker stop SpringbootApp || true'	    
+      //sh 'docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | egrep 'springboot|tomcat') || true'	    
+    //  sh 'docker rm -f SpringbootApp || true'    
     }
   }
   stage('Build Docker Image'){
