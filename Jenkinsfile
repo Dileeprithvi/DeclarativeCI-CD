@@ -1,5 +1,5 @@
 def mvn
-def server = Artifactory.server 'artifactory'
+def server = Artifactory.server 'jenkins-artifactory-server'
 def rtMaven = Artifactory.newMavenBuild()
 def buildInfo
 pipeline {
