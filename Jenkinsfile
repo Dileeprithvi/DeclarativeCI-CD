@@ -64,7 +64,7 @@ pipeline {
   }
   stage('Build Docker Image'){
     steps{
-      sh 'docker build -t dileep95/springtest:$BUILD_NUMBER .'
+      sh 'docker build -t lartex/springtest:$BUILD_NUMBER .'
     }
   }	  	 
   stage('Docker Container'){
