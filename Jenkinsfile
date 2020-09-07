@@ -72,7 +72,7 @@ pipeline {
       withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
 	  sh 'docker login -u ${docker_user} -p ${docker_pass}'
       	  sh 'docker push lartex/springtest:$BUILD_NUMBER'
-	  sh 'docker run -d -p 8050:8050 --name SpringbootApp dileep95/springtest:$BUILD_NUMBER'
+	  sh 'docker run -d -p 8050:8050 --name SpringbootApp lartex/springtest:$BUILD_NUMBER'
 	  }
     }
   }
