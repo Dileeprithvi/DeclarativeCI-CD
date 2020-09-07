@@ -77,13 +77,5 @@ pipeline {
     }
   }
 }	  	  
-post {
-    always {
-		emailext body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", charset: 'UTF-8', mimeType: 'text/html', subject: "Success: Project name -> ${env.JOB_NAME}", to: "cristian.benitez@mtp.com";
-    }
-    failure {
-sh 'echo "This will run only if failed"'
-      emailext body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", charset: 'UTF-8', mimeType: 'text/html', subject: "ERROR: Project name -> ${env.JOB_NAME}", to: "cristian.benitez@mtp.com";
-    }
-  }
+
 }
